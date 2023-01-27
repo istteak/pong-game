@@ -12,11 +12,14 @@ class PongBall(Widget):
         self.pos = Vector(*self.velocity) + self.pos
         
 class PongGame(Widget):
-    pass
+    def update(self, dt):
+        pass
 
 class PongApp(App):
     def build(self):
-        return PongGame()
+        game = PongGame()
+        Clock.schedule_interval(game.update, 1.0/60.0)
+        return game
 
 if __name__ == '__main__':
     PongApp().run()
