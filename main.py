@@ -7,6 +7,16 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from random import randint
 
+class PongPaddle(Widget):
+
+    score = NumericProperty(0)
+
+    def bounce_ball(self, ball):
+        if self.collide_widget(ball):
+            speedup  = 1.1
+            offset = 0.02 * Vector(0, ball.center_y-self.center_y)
+            ball.velocity =  speedup * (offset - ball.velocity)
+
 class PongBall(Widget):
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
@@ -17,6 +27,12 @@ class PongBall(Widget):
         
 class PongGame(Widget):
     ball = ObjectProperty(None)
+    
+    def on_touch_move(self, touch):
+        if touch.x < self.width/3:
+            self.player1.center_y = touch.y
+        if touch.x > self.width - self.width/3:
+            self.player2.center_y = touch.y
 
     def serve_ball(self):
         self.ball.center = self.center
